@@ -10,6 +10,7 @@ import argparse
 import io
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -30,6 +31,8 @@ log: list[str] = []
 
 
 def say(text: str = '') -> None:
+    # Never write credentials into evidence, even throwaway demo tokens; keep paths repo-relative.
+    text = re.sub(r'(student-demo-\d+: )\S+', r'\1<redacted>', text).replace(str(ROOT) + os.sep, '')
     print(text)
     log.append(text)
 

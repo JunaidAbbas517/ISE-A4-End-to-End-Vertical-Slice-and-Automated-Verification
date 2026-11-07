@@ -1,0 +1,178 @@
+{
+  "captured_at": "2026-11-07T17:03:47Z",
+  "data": "synthetic fixtures a4-synthetic-fixtures-v1",
+  "records": [
+    {
+      "scenario": "S1 Normal: confirm official change",
+      "action": "Student A confirms cand-a1-lms at v1",
+      "http_status": 200,
+      "replayed": null,
+      "response": {
+        "status": "APPLIED",
+        "already_applied": false,
+        "assignment_id": "assignment-demo-a1",
+        "version": 2,
+        "deadline_local_iso": "2026-10-17T16:30:00+08:00",
+        "deadline_zone": "Asia/Shanghai",
+        "message": "Deadline updated."
+      }
+    },
+    {
+      "scenario": "S2 Duplicate: network retry, same key",
+      "action": "Same request re-sent with the same Idempotency-Key",
+      "http_status": 200,
+      "replayed": "true",
+      "response": {
+        "status": "APPLIED",
+        "already_applied": false,
+        "assignment_id": "assignment-demo-a1",
+        "version": 2,
+        "deadline_local_iso": "2026-10-17T16:30:00+08:00",
+        "deadline_zone": "Asia/Shanghai",
+        "message": "Deadline updated."
+      }
+    },
+    {
+      "scenario": "S3 Duplicate: second tab, new key",
+      "action": "Already-applied change confirmed again with a new key",
+      "http_status": 200,
+      "replayed": null,
+      "response": {
+        "status": "APPLIED",
+        "already_applied": true,
+        "assignment_id": "assignment-demo-a1",
+        "version": 2,
+        "message": "This change was already applied. Nothing was changed twice."
+      }
+    },
+    {
+      "scenario": "S4 Stale page",
+      "action": "Page still shows v1 while deadline is v2",
+      "http_status": 409,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "STALE_VERSION",
+          "message": "Your page showed version 1, but the deadline is now version 2.",
+          "recovery": "Reload to see the latest deadline, then decide again."
+        }
+      }
+    },
+    {
+      "scenario": "S5 Outdated candidate",
+      "action": "Conflicting candidate (detected at v1) confirmed with fresh v2 page",
+      "http_status": 409,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "CANDIDATE_OUTDATED",
+          "message": "This proposed change was detected against an older deadline version.",
+          "recovery": "Reject it, or wait for it to be re-detected against the current deadline."
+        }
+      }
+    },
+    {
+      "scenario": "S6 Recovery: reject outdated candidate",
+      "action": "Student follows the recovery advice",
+      "http_status": 200,
+      "replayed": null,
+      "response": {
+        "status": "REJECTED",
+        "assignment_id": "assignment-demo-a1",
+        "version": 2,
+        "message": "Change rejected. Your deadline is unchanged."
+      }
+    },
+    {
+      "scenario": "S7 Abuse: unverified source",
+      "action": "Student A confirms a change from an untrusted chat message",
+      "http_status": 422,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "SOURCE_NOT_AUTHORIZED",
+          "message": "This change comes from an unverified source and cannot be applied.",
+          "recovery": "Check the official course page; you can Reject this change."
+        }
+      }
+    },
+    {
+      "scenario": "S8 Unauthorized: no token",
+      "action": "Request without Authorization header",
+      "http_status": 401,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Sign in with your access token.",
+          "recovery": "Paste your demo token and press Sign in."
+        }
+      }
+    },
+    {
+      "scenario": "S9 Unauthorized: other student",
+      "action": "Student B tries to confirm Student A's change",
+      "http_status": 404,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "Change not found.",
+          "recovery": "Reload your assignment list."
+        }
+      }
+    },
+    {
+      "scenario": "S10 Boundary: oversized body",
+      "action": "5 KB body (limit 4 KB)",
+      "http_status": 413,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "PAYLOAD_TOO_LARGE",
+          "message": "Request body exceeds 4096 bytes.",
+          "recovery": ""
+        }
+      }
+    },
+    {
+      "scenario": "S11 Boundary: missing Idempotency-Key",
+      "action": "Client omits the duplicate-protection header",
+      "http_status": 400,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "IDEMPOTENCY_KEY_REQUIRED",
+          "message": "Each change request needs an Idempotency-Key header (8-128 letters, digits, - or _).",
+          "recovery": "Reload the page and try again."
+        }
+      }
+    },
+    {
+      "scenario": "S12 Boundary: invalid decision",
+      "action": "decision = \"DELETE\"",
+      "http_status": 400,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "INVALID_DECISION",
+          "message": "Decision must be CONFIRM or REJECT.",
+          "recovery": "Use the Confirm or Reject button."
+        }
+      }
+    },
+    {
+      "scenario": "S13 Feature flag off (rollback level 1)",
+      "action": "Student A confirms while slice disabled",
+      "http_status": 503,
+      "replayed": null,
+      "response": {
+        "error": {
+          "code": "FEATURE_DISABLED",
+          "message": "Confirming changes is temporarily switched off. Your tracked deadline is unchanged.",
+          "recovery": "Try again later; you can still view and export deadlines."
+        }
+      }
+    }
+  ]
+}
