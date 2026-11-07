@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deadline Change Check</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header>
+    <h1>Deadline Change Check</h1>
+    <p class="note">Your <strong>personal</strong> tracked deadlines. Confirming a change never edits the official course record. Demo data is synthetic.</p>
+  </header>
+
+  <main>
+    <section id="signin" aria-labelledby="signin-h">
+      <h2 id="signin-h">Sign in</h2>
+      <form id="signin-form">
+        <label for="token">Access token</label>
+        <input id="token" name="token" type="password" autocomplete="off" required>
+        <button type="submit">Sign in</button>
+      </form>
+    </section>
+
+    <div id="banner" role="alert" hidden>
+      <p id="banner-msg"></p>
+      <p id="banner-recovery" class="recovery"></p>
+      <div class="banner-actions">
+        <button type="button" id="banner-retry" hidden>Retry</button>
+        <button type="button" id="banner-reload" hidden>Reload latest</button>
+        <button type="button" id="banner-close">Dismiss</button>
+      </div>
+    </div>
+
+    <div id="flag-off" class="warn" hidden>Confirming changes is temporarily switched off. You can still view and export.</div>
+
+    <section id="workspace" hidden aria-live="polite">
+      <div class="who"><span id="who"></span> <button type="button" id="signout">Sign out</button></div>
+      <div id="assignments"></div>
+    </section>
+  </main>
+
+  <template id="assignment-tpl">
+    <article class="assignment">
+      <h2 class="title"></h2>
+      <p class="current">Current deadline: <strong class="deadline"></strong> <span class="version"></span></p>
+      <button type="button" class="export">Export to calendar (.ics)</button>
+      <div class="candidates"></div>
+      <details class="history-box"><summary>Change history</summary><ol class="history"></ol></details>
+    </article>
+  </template>
+
+  <template id="candidate-tpl">
+    <div class="candidate">
+      <p><strong>Proposed new deadline:</strong> <span class="proposed"></span></p>
+      <p>Source: <span class="source"></span> <span class="badge"></span></p>
+      <div class="actions">
+        <button type="button" class="confirm">Confirm change</button>
+        <button type="button" class="reject">Reject</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="/app.js"></script>
+</body>
+</html>

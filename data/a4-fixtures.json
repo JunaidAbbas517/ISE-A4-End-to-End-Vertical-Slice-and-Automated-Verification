@@ -1,0 +1,35 @@
+{
+  "dataset_id": "a4-synthetic-fixtures-v1",
+  "data_status": "SYNTHETIC_TEST_DATA_NOT_REAL_STUDENT_EVIDENCE",
+  "derived_from": "a2-synthetic-fixtures-v1 (same IDs, dates and source kinds for assignment-demo-a1)",
+  "students": [
+    {"student_id": "student-demo-01", "display_name": "Demo Student A"},
+    {"student_id": "student-demo-02", "display_name": "Demo Student B"}
+  ],
+  "assignments": [
+    {"assignment_id": "assignment-demo-a1", "course_id": "course-demo-ise", "student_id": "student-demo-01",
+     "title": "Assignment 1", "deadline_local_iso": "2026-10-10T16:30:00+08:00", "deadline_zone": "Asia/Shanghai"},
+    {"assignment_id": "assignment-demo-a2", "course_id": "course-demo-ise", "student_id": "student-demo-01",
+     "title": "Assignment 2 report", "deadline_local_iso": "2026-11-20T23:59:00+08:00", "deadline_zone": "Asia/Shanghai"},
+    {"assignment_id": "assignment-demo-b1", "course_id": "course-demo-ise", "student_id": "student-demo-02",
+     "title": "Assignment 1", "deadline_local_iso": "2026-10-10T16:30:00+08:00", "deadline_zone": "Asia/Shanghai"}
+  ],
+  "sources": [
+    {"source_id": "source-demo-lms-01", "assignment_id": "assignment-demo-a1", "source_kind": "OFFICIAL_LMS",
+     "source_ref": "demo://official/lms/notice-01", "content_text": "synthetic-lms-notice-01", "authority_verified": true},
+    {"source_id": "source-demo-chat-01", "assignment_id": "assignment-demo-a2", "source_kind": "UNTRUSTED_MESSAGE",
+     "source_ref": "demo://untrusted/message-01", "content_text": "synthetic-chat-message-01", "authority_verified": false},
+    {"source_id": "source-demo-lms-02", "assignment_id": "assignment-demo-b1", "source_kind": "OFFICIAL_LMS",
+     "source_ref": "demo://official/lms/notice-02", "content_text": "synthetic-lms-notice-02", "authority_verified": true}
+  ],
+  "candidates": [
+    {"candidate_id": "cand-a1-lms", "assignment_id": "assignment-demo-a1", "source_id": "source-demo-lms-01",
+     "proposed_local_iso": "2026-10-17T16:30:00+08:00", "proposed_zone": "Asia/Shanghai", "base_version": 1},
+    {"candidate_id": "cand-a1-conflict", "assignment_id": "assignment-demo-a1", "source_id": "source-demo-lms-01",
+     "proposed_local_iso": "2026-10-21T16:30:00+08:00", "proposed_zone": "Asia/Shanghai", "base_version": 1},
+    {"candidate_id": "cand-a2-chat", "assignment_id": "assignment-demo-a2", "source_id": "source-demo-chat-01",
+     "proposed_local_iso": "2026-11-27T23:59:00+08:00", "proposed_zone": "Asia/Shanghai", "base_version": 1},
+    {"candidate_id": "cand-b1-lms", "assignment_id": "assignment-demo-b1", "source_id": "source-demo-lms-02",
+     "proposed_local_iso": "2026-10-17T16:30:00+08:00", "proposed_zone": "Asia/Shanghai", "base_version": 1}
+  ]
+}

@@ -1,0 +1,3 @@
+# Keep LF everywhere so fixture SHA-256 and test output are identical on Windows/Linux/macOS
+* text=auto eol=lf
+*.db binary

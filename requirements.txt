@@ -1,0 +1,3 @@
+# Runtime and tests use the Python standard library only (sqlite3, http.server, unittest, zoneinfo).
+# tzdata supplies the IANA time-zone database where the OS has none (Windows). Version recorded in test runs.
+tzdata==2023.3; sys_platform == "win32"
