@@ -1,0 +1,9 @@
+# Local runtime state: never commit databases, demo tokens or backups
+local/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+__pycache__/
+*.pyc
+.venv/

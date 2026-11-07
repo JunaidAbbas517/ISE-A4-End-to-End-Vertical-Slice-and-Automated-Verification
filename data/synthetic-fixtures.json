@@ -1,0 +1,13 @@
+{
+  "dataset_id": "a2-synthetic-fixtures-v1",
+  "data_status": "SYNTHETIC_TEST_DATA_NOT_REAL_STUDENT_EVIDENCE",
+  "student_id": "student-demo-01",
+  "course_id": "course-demo-ise",
+  "assignment_id": "assignment-demo-a1",
+  "assignment_title": "Assignment 1",
+  "original_deadline": {"local_iso": "2026-10-10T16:30:00+08:00", "zone_name": "Asia/Shanghai"},
+  "candidate_deadline": {"local_iso": "2026-10-17T16:30:00+08:00", "zone_name": "Asia/Shanghai"},
+  "conflicting_deadline": {"local_iso": "2026-10-21T16:30:00+08:00", "zone_name": "Asia/Shanghai"},
+  "source": {"source_id": "source-demo-lms-01", "source_kind": "OFFICIAL_LMS", "source_ref": "demo://official/lms/notice-01", "authority_verified": true, "trust_note": "Fixture's verified label is an explicit test assumption, not proof of a real institution."},
+  "untrusted_source": {"source_id": "source-demo-chat-01", "source_kind": "UNTRUSTED_MESSAGE", "source_ref": "demo://untrusted/message-01", "authority_verified": false}
+}
