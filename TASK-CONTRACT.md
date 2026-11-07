@@ -1,6 +1,6 @@
 # Task Contract: Confirm or Reject a Detected Deadline Change
 
-**ID:** A4-SLICE-01 | **Owner:** the repository author | **Status:** implemented, awaiting peer review and user task test
+**ID:** A4-SLICE-01 | **Owner:** the repository author | **Status:** implemented; AC1–AC9 verified by automated checks; AC10 not executed
 
 ## Requirement link (traceability)
 
@@ -19,7 +19,7 @@ As a student who tracks my own deadlines, when a possible deadline change has be
 
 ## In scope
 - Sign in with a (local, demo) bearer token.
-- See my assignments, current deadline and version, pending changes with their source and whether that source is verified.
+- See my assignments, current deadline and version, proposed changes with their source and whether that source is verified.
 - **Confirm** → new version, history row, export updates. **Reject** → nothing changes.
 - Export one assignment as an iCalendar VTODO (`.ics`).
 - Clear error message and a recovery action for every refusal.
@@ -31,7 +31,7 @@ Detecting changes from real LMS/email (candidates are seeded fixtures); real uni
 
 | # | Criterion | Check(s) |
 |---|---|---|
-| AC1 | Owner confirms a verified pending change at the current version → `200 APPLIED`, version +1, exactly one history row with actor and source | `test_integration.TestNormalPath.test_confirm_applies_new_version_with_history`, `test_e2e.TestUserJourney.test_full_confirm_reject_export_journey` |
+| AC1 | Owner confirms an open change from a verified source at the current version → `200 APPLIED`, version +1, exactly one history row with actor and source | `test_integration.TestNormalPath.test_confirm_applies_new_version_with_history`, `test_e2e.TestUserJourney.test_full_confirm_reject_export_journey` |
 | AC2 | Reject → `200 REJECTED`, deadline/version/history unchanged | `test_reject_never_mutates_deadline`, `test_outdated_candidate_can_still_be_rejected` |
 | AC3 | **Duplicate**: same Idempotency-Key + same body → identical stored response, no second change; same key + different body → `422`; new key on applied change → `200 already_applied`; concurrent clicks apply once | `TestDuplicates.*` (integration, 8 threads), `test_e2e.TestDuplicatesAndStale.test_parallel_double_click` |
 | AC4 | **Stale version**: `expected_version` ≠ current → `409 STALE_VERSION`; candidate based on older version → `409 CANDIDATE_OUTDATED`; two conflicting confirms race → exactly one wins | `TestStaleVersions.*`, `test_stale_page_gets_409_with_recovery` |
@@ -40,7 +40,14 @@ Detecting changes from real LMS/email (candidates are seeded fixtures); real uni
 | AC7 | **Boundaries**: body > 4096 B → `413`; non-JSON content type → `415`; bad JSON / missing key / bad decision / bad version → `400`; wrong offset for zone → `422`; unknown route `404`, wrong method `405`; `.ics` text injection escaped | `test_unit.*`, `test_e2e.TestBoundaries.*`, `test_offset_mismatch_in_stored_candidate_is_refused` |
 | AC8 | **Failure & recovery**: a fault mid-transaction leaves no partial state; the same action succeeds after the fault is removed; every error carries a recovery hint | `test_mid_transaction_fault_rolls_back_everything`, `evidence/error-behaviour.md` |
 | AC9 | **Rollback**: feature flag disables writes but keeps reads/export; compensating revert; backup/restore; schema down/up; previous commit passes its own tests | `TestFeatureFlagOff`, `TestRollback.*`, `evidence/rollback-drill.txt` |
-| AC10 | Representative users can complete the confirm and the stale-recovery tasks | **Manual**: `USER-TASK-TEST.md` (results must come from real participants) |
+| AC10 | Representative users can complete the confirm and the stale-recovery tasks | Manual protocol in `USER-TASK-TEST.md`; not executed with participants in this submission |
 
-## Definition of done
-All automated checks pass from a clean checkout (`python scripts/run_tests.py`); raw output kept in `evidence/test-runs/`; peer review recorded in `PEER-REVIEW.md` with each comment resolved or explained; user task test recorded in `USER-TASK-TEST.md`; rollback drill executed; tag `ise-a4-v1.0` pushed.
+## Outcome against the definition of done
+
+| Item | Outcome |
+|---|---|
+| All automated checks pass from a clean checkout (`python scripts/run_tests.py`) | Met: 72 checks, all pass (1 inherited A2 expected failure) |
+| Raw output kept, including failed runs | Met: `evidence/test-runs/` |
+| Rollback drill executed | Met: `evidence/rollback-drill.txt`, all five levels PASS |
+| Peer review per `PEER-REVIEW.md` | Not met: protocol defined; no review session in this submission |
+| User task test per `USER-TASK-TEST.md` | Not met: protocol defined; not executed with participants (AC10 unverified) |

@@ -68,7 +68,7 @@ class TestNormalPath(Base):
         self.assertEqual((a['version'], a['deadline_local_iso']), (1, '2026-10-10T16:30:00+08:00'))
         self.assertEqual(history_count(self.conn), 0)
 
-    def test_list_shows_only_own_assignments_and_pending(self):
+    def test_list_shows_only_own_assignments_and_open_changes(self):
         items = service.list_assignments(self.conn, A)
         self.assertEqual([i['assignment_id'] for i in items], ['assignment-demo-a1', 'assignment-demo-a2'])
         self.assertEqual(len(items[0]['pending_candidates']), 2)

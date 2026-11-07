@@ -76,7 +76,7 @@ class TestUserJourney(ServerCase):
             self.assertEqual(self.c.request('GET', asset)[0], 200)
 
     def test_full_confirm_reject_export_journey(self):
-        # 1. Student A sees the pending official change at version 1.
+        # 1. Student A sees the open official change at version 1.
         a1 = self.assignments()['assignment-demo-a1']
         self.assertEqual(a1['version'], 1)
         self.assertEqual({c['candidate_id'] for c in a1['pending_candidates']}, {'cand-a1-lms', 'cand-a1-conflict'})

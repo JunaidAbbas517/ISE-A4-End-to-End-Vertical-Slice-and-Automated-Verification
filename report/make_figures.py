@@ -60,7 +60,7 @@ def figure_write_path():
         ('Validate JSON, key, decision, version', 'malformed', '400 / 415', 'blue'),
         ('BEGIN IMMEDIATE; idempotency lookup', 'same key', 'replay / 422', 'green'),
         ('Owner of candidate?', 'no / unknown', '404', 'green'),
-        ('Candidate state', 'not pending', '409 (or 200 already)', 'green'),
+        ('Candidate state', 'already decided', '409 (or 200 already)', 'green'),
         ('expected_version = current?', 'no', '409 STALE', 'green'),
         ('REJECT -> close candidate', 'deadline unchanged', '200', 'yellow'),
         ('base_version = current?', 'no', '409 OUTDATED', 'green'),

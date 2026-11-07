@@ -48,8 +48,8 @@ python scripts/rollback_drill.py            # runs rollback levels 1-5 -> eviden
 | Unauthorized access | `401` for no/bad token; `404` for other students' data |
 | Boundaries | 4 KB body limit, content-type, strict JSON shape, ID charset, time-zone/offset agreement, `.ics` escaping |
 | Unit / integration / E2E checks | `tests/test_unit.py`, `tests/test_integration.py` (real SQLite, threads, fault injection), `tests/test_e2e.py` (real HTTP server); `tests/test_domain.py` = unchanged A2 suite |
-| Peer review | [PEER-REVIEW.md](PEER-REVIEW.md) (**to be completed with a real reviewer**) |
-| Representative-user task test | [USER-TASK-TEST.md](USER-TASK-TEST.md) (**to be completed with real participants**) |
+| Peer review | [PEER-REVIEW.md](PEER-REVIEW.md): scope, checklist and record format; no review session in this submission |
+| Representative-user task test | [USER-TASK-TEST.md](USER-TASK-TEST.md): six-task protocol; not executed with participants (AC10 unverified) |
 | Rollback design | [ROLLBACK.md](ROLLBACK.md) + `scripts/rollback.py` + executed drill |
 | AI-use log | [AI-USE-AND-VERIFICATION.md](AI-USE-AND-VERIFICATION.md) |
 

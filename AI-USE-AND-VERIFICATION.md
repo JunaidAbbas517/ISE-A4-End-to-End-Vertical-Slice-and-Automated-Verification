@@ -3,9 +3,9 @@
 ## Tools
 | Tool | Used for |
 |---|---|
-| Claude Code (Anthropic, model Claude Opus 5.5) in VS Code, 2026-11-08 | Proposing the slice from A1–A3 material; writing code, tests, scripts and draft documentation; running the tests and drills on the author's machine |
+| Claude Code (Anthropic, model Claude Opus 5.5) in VS Code, 2026-11-08 | Proposing the slice from A1–A3 material; writing code, tests, scripts, figures, report and documentation; running the tests and drills on the author's machine |
 
-The author remains responsible for every file. Items marked **author to verify** below must be checked by the author before submission.
+The author remains responsible for every file.
 
 ## What the AI did, and what was accepted or rejected
 
@@ -20,7 +20,7 @@ The author remains responsible for every file. Items marked **author to verify**
 | 7 | First version of `_apply_decision` checked `CANDIDATE_OUTDATED` before the reject path | **AI's own bug, found by E2E test** | First run `evidence/test-runs/*first-run-FAIL.txt`: rejecting an outdated change was refused although the message told the user to reject it. Fixed; regression test `test_outdated_candidate_can_still_be_rejected` added |
 | 8 | First `.ics` injection test counted `END:VTODO` substrings | **AI's test-oracle bug** | Escaped text legitimately contains the substring. Oracle changed to count whole lines. The code was correct; the test was wrong |
 | 9 | First POST handler authenticated before reading the body | **AI's bug, found during self-review before any test** | An unread body on a keep-alive connection corrupts the next request. Fixed by reading (bounded) first; `test_keep_alive_connection_survives_a_rejected_post` |
-| 10 | Draft peer-review and user-test results | **Rejected / not produced** | Would be fabricated. Only templates and protocol were written; results must come from real people |
+| 10 | Generate peer-review and user-test results | **Rejected / not produced** | Would be fabricated. Only the protocols were written; no session took place, and the report says so |
 
 ## Independent verification performed
 - Full suite run from the command line: first run **FAIL** (2 of 71), kept. After fixes **72 tests, all pass** (1 inherited A2 expected failure). Repeated 10 times: 10/10 OK, no flaky concurrency tests.
@@ -28,15 +28,11 @@ The author remains responsible for every file. Items marked **author to verify**
 - Rollback levels 1–5 executed by script (`evidence/rollback-drill.txt`).
 - A2 baseline reproduced unchanged before any edit (18 tests, 1 expected failure).
 
-## Author to verify before submitting
-- [ ] Read `src/service.py` and `migrations/001_up.sql` and be able to explain each check.
-- [ ] Run `python scripts/run_tests.py` yourself on a clean clone.
-- [ ] Open the UI yourself and go through T1–T6 in `USER-TASK-TEST.md` once.
-- [ ] Peer review and user test done by real people and recorded.
-- [ ] Add any further AI use (e.g. for the report text) to this table.
+## Not performed
+- No human peer review and no representative-user task test took place. Only the protocols exist (`PEER-REVIEW.md`, `USER-TASK-TEST.md`).
 
 ## Known limitations
-- E2E tests drive the HTTP API, not a real browser. `app.js` is checked only through manual use.
+- E2E tests drive the HTTP API, not a real browser. `app.js` is not covered by automated tests; it was only syntax-checked (`node --check`).
 - Demo bearer tokens are not real authentication (no expiry, no login, no TLS). Acceptable only on localhost.
 - Change *detection* is not implemented; candidates are seeded fixtures.
 - Concurrency was tested with threads on one machine with SQLite's single-writer lock, not under multi-process load.

@@ -1,0 +1,89 @@
+# ISE-A4 test run 20261107T172220Z label=final-clean
+git_commit: 4dcadfed7c8585dee13c0678347b2c083a938fe6
+git_dirty: yes
+python: 3.12.4 (CPython)
+platform: Windows-11-10.0.22631-SP0
+sqlite: 3.45.3
+tzdata: 2023.3
+fixtures: a4-fixtures.json sha256=b39689db3068dd41d0b7d01e9239e58ba9a22dfdd5393586a38e2bd70a5fd8ad
+command: python -m unittest discover -s tests -v
+test_I1_nonowner_blocked_and_unchanged (test_domain.TestInvariants.test_I1_nonowner_blocked_and_unchanged) ... ok
+test_I1_requires_explicit_confirmation (test_domain.TestInvariants.test_I1_requires_explicit_confirmation) ... ok
+test_I2_missing_provenance_identifier_rejected (test_domain.TestInvariants.test_I2_missing_provenance_identifier_rejected) ... ok
+test_I2_provenance_required (test_domain.TestInvariants.test_I2_provenance_required) ... ok
+test_I2_untrusted_kind_even_with_bad_verified_flag_is_blocked (test_domain.TestInvariants.test_I2_untrusted_kind_even_with_bad_verified_flag_is_blocked) ... ok
+test_I2_unverified_blocked (test_domain.TestInvariants.test_I2_unverified_blocked) ... ok
+test_I3_replay_is_idempotent (test_domain.TestInvariants.test_I3_replay_is_idempotent) ... ok
+test_I3_stale_candidate_rejected (test_domain.TestInvariants.test_I3_stale_candidate_rejected) ... ok
+test_I3_versioned_history_and_single_current_deadline (test_domain.TestInvariants.test_I3_versioned_history_and_single_current_deadline) ... ok
+test_I4_rejected_candidate_no_mutation (test_domain.TestInvariants.test_I4_rejected_candidate_no_mutation) ... ok
+test_I4_rejected_cannot_confirm_later (test_domain.TestInvariants.test_I4_rejected_cannot_confirm_later) ... ok
+test_documented_limitation_public_store_mutation (test_domain.TestInvariants.test_documented_limitation_public_store_mutation)
+Expected failure: raw in-memory dict is not an access-control boundary. ... expected failure
+test_legal_transition_trail (test_domain.TestInvariants.test_legal_transition_trail) ... ok
+test_missing_assignment_reference_rejected (test_domain.TestInvariants.test_missing_assignment_reference_rejected) ... ok
+test_naive_datetime_rejected (test_domain.TestInvariants.test_naive_datetime_rejected) ... ok
+test_no_raw_document_content_stored (test_domain.TestInvariants.test_no_raw_document_content_stored) ... ok
+test_same_deadline_marked_invalid (test_domain.TestInvariants.test_same_deadline_marked_invalid) ... ok
+test_time_zone_offset_mismatch_rejected (test_domain.TestInvariants.test_time_zone_offset_mismatch_rejected) ... ok
+test_keep_alive_connection_survives_a_rejected_post (test_e2e.TestBoundaries.test_keep_alive_connection_survives_a_rejected_post) ... ok
+test_malformed_requests (test_e2e.TestBoundaries.test_malformed_requests) ... ok
+test_unknown_route_and_method (test_e2e.TestBoundaries.test_unknown_route_and_method) ... ok
+test_parallel_double_click (test_e2e.TestDuplicatesAndStale.test_parallel_double_click) ... ok
+test_retry_with_same_key_is_replayed (test_e2e.TestDuplicatesAndStale.test_retry_with_same_key_is_replayed) ... ok
+test_stale_page_gets_409_with_recovery (test_e2e.TestDuplicatesAndStale.test_stale_page_gets_409_with_recovery) ... ok
+test_writes_disabled_reads_still_work (test_e2e.TestFeatureFlagOff.test_writes_disabled_reads_still_work) ... ok
+test_body_cannot_choose_the_actor (test_e2e.TestUnauthorized.test_body_cannot_choose_the_actor) ... ok
+test_cross_student_access_is_404 (test_e2e.TestUnauthorized.test_cross_student_access_is_404) ... ok
+test_no_or_bad_token_is_401 (test_e2e.TestUnauthorized.test_no_or_bad_token_is_401) ... ok
+test_full_confirm_reject_export_journey (test_e2e.TestUserJourney.test_full_confirm_reject_export_journey) ... ok
+test_ui_assets_served_with_security_headers (test_e2e.TestUserJourney.test_ui_assets_served_with_security_headers) ... ok
+test_missing_wrong_and_revoked_tokens_are_401 (test_integration.TestAuthentication.test_missing_wrong_and_revoked_tokens_are_401) ... ok
+test_plaintext_tokens_not_stored (test_integration.TestAuthentication.test_plaintext_tokens_not_stored) ... ok
+test_valid_token_maps_to_student (test_integration.TestAuthentication.test_valid_token_maps_to_student) ... ok
+test_export_of_foreign_assignment_is_404 (test_integration.TestAuthorizationAndAbuse.test_export_of_foreign_assignment_is_404) ... ok
+test_offset_mismatch_in_stored_candidate_is_refused (test_integration.TestAuthorizationAndAbuse.test_offset_mismatch_in_stored_candidate_is_refused) ... ok
+test_other_students_candidate_is_404_and_untouched (test_integration.TestAuthorizationAndAbuse.test_other_students_candidate_is_404_and_untouched) ... ok
+test_rejected_cannot_be_confirmed_later (test_integration.TestAuthorizationAndAbuse.test_rejected_cannot_be_confirmed_later) ... ok
+test_unknown_candidate_same_404_as_foreign (test_integration.TestAuthorizationAndAbuse.test_unknown_candidate_same_404_as_foreign) ... ok
+test_untrusted_source_cannot_be_applied (test_integration.TestAuthorizationAndAbuse.test_untrusted_source_cannot_be_applied) ... ok
+test_concurrent_double_submit_applies_exactly_once (test_integration.TestDuplicates.test_concurrent_double_submit_applies_exactly_once) ... ok
+test_keys_are_scoped_per_student (test_integration.TestDuplicates.test_keys_are_scoped_per_student) ... ok
+test_new_key_after_apply_is_harmless (test_integration.TestDuplicates.test_new_key_after_apply_is_harmless) ... ok
+test_same_key_different_body_is_refused (test_integration.TestDuplicates.test_same_key_different_body_is_refused) ... ok
+test_same_key_same_body_is_replayed_once (test_integration.TestDuplicates.test_same_key_same_body_is_replayed_once) ... ok
+test_confirm_applies_new_version_with_history (test_integration.TestNormalPath.test_confirm_applies_new_version_with_history) ... ok
+test_list_shows_only_own_assignments_and_open_changes (test_integration.TestNormalPath.test_list_shows_only_own_assignments_and_open_changes) ... ok
+test_reject_never_mutates_deadline (test_integration.TestNormalPath.test_reject_never_mutates_deadline) ... ok
+test_backup_restore_round_trip (test_integration.TestRollback.test_backup_restore_round_trip) ... ok
+test_compensating_revert_restores_previous_deadline (test_integration.TestRollback.test_compensating_revert_restores_previous_deadline) ... ok
+test_revert_refused_if_later_change_exists (test_integration.TestRollback.test_revert_refused_if_later_change_exists) ... ok
+test_schema_down_then_up (test_integration.TestRollback.test_schema_down_then_up) ... ok
+test_candidate_from_older_version_cannot_overwrite (test_integration.TestStaleVersions.test_candidate_from_older_version_cannot_overwrite) ... ok
+test_concurrent_conflicting_candidates_one_wins (test_integration.TestStaleVersions.test_concurrent_conflicting_candidates_one_wins) ... ok
+test_outdated_candidate_can_still_be_rejected (test_integration.TestStaleVersions.test_outdated_candidate_can_still_be_rejected) ... ok
+test_stale_expected_version_is_409_without_change (test_integration.TestStaleVersions.test_stale_expected_version_is_409_without_change) ... ok
+test_direct_deadline_update_is_blocked (test_integration.TestStorageGuards.test_direct_deadline_update_is_blocked) ... ok
+test_history_is_append_only (test_integration.TestStorageGuards.test_history_is_append_only) ... ok
+test_illegal_candidate_transition_blocked (test_integration.TestStorageGuards.test_illegal_candidate_transition_blocked) ... ok
+test_mid_transaction_fault_rolls_back_everything (test_integration.TestStorageGuards.test_mid_transaction_fault_rolls_back_everything) ... ok
+test_owner_cannot_be_reassigned (test_integration.TestStorageGuards.test_owner_cannot_be_reassigned) ... ok
+test_flag_parsing (test_unit.TestHelpers.test_flag_parsing) ... ok
+test_token_hash_is_not_plaintext (test_unit.TestHelpers.test_token_hash_is_not_plaintext) ... ok
+test_due_is_converted_to_utc (test_unit.TestIcsExport.test_due_is_converted_to_utc) ... ok
+test_escape_backslash_first (test_unit.TestIcsExport.test_escape_backslash_first) ... ok
+test_text_escaping_prevents_property_injection (test_unit.TestIcsExport.test_text_escaping_prevents_property_injection) ... ok
+test_body_must_be_exact_shape (test_unit.TestRequestValidation.test_body_must_be_exact_shape) ... ok
+test_candidate_id_charset (test_unit.TestRequestValidation.test_candidate_id_charset) ... ok
+test_decision_enum (test_unit.TestRequestValidation.test_decision_enum) ... ok
+test_idempotency_key_bounds (test_unit.TestRequestValidation.test_idempotency_key_bounds) ... ok
+test_missing_idempotency_key (test_unit.TestRequestValidation.test_missing_idempotency_key) ... ok
+test_valid_request (test_unit.TestRequestValidation.test_valid_request) ... ok
+test_version_type_and_range (test_unit.TestRequestValidation.test_version_type_and_range) ... ok
+
+----------------------------------------------------------------------
+Ran 72 tests in 7.229s
+
+OK (expected failures=1)
+
+# summary: PASS ran=72 failures=0 errors=0 skipped=0 expected_failures=1 unexpected_successes=0

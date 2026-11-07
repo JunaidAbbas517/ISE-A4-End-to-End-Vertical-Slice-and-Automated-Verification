@@ -95,8 +95,8 @@ const body = [
     ['Repeat runs', '10 of 10 OK', 'No flaky results from the threaded concurrency tests in this environment'],
     ['Error behaviour', '13 scenarios captured', 'Responses recorded from a real local server, not hand-written'],
     ['Rollback drill', 'Levels 1–5 PASS', 'Feature flag, compensating revert, restore, schema down, code rollback'],
-    ['Peer review', '[[PENDING]]', '[[Protocol in PEER-REVIEW.md; insert result before submission]]'],
-    ['User task test', '[[PENDING]]', '[[Protocol in USER-TASK-TEST.md; insert result before submission]]'],
+    ['Peer review', 'Protocol defined', 'Checklist and record format in PEER-REVIEW.md; no review session within this submission'],
+    ['User task test', 'Protocol defined', 'Six-task protocol in USER-TASK-TEST.md; not executed with participants within this submission'],
   ]),
   p('All records are synthetic. No real student data, university credentials, live LMS or network deployment was used. A1 simulated pilot data remain simulated.', { para: { spacing: { before: 120, after: 120 } } }),
 
@@ -115,7 +115,7 @@ const body = [
   p('**Non-goals:** detecting changes from a real LMS or email (candidates are seeded fixtures), institutional authentication, deployment, reading calendar edits back, multi-device sync, and the deletion workflow (A2 retention rules stay design requirements).'),
   h2('Acceptance criteria'),
   table([700, 5038, 3900], ['AC', 'Criterion', 'Evidence'], [
-    ['1', 'Owner confirms a verified pending change: 200, version +1, one history row with actor and source', 'Integration normal path; E2E journey'],
+    ['1', 'Owner confirms an open change from a verified source: 200, version +1, one history row with actor and source', 'Integration normal path; E2E journey'],
     ['2', 'Reject: 200, deadline, version and history unchanged', 'Integration; regression test for outdated reject'],
     ['3', 'Duplicates: same key replays; same key with a different body 422; concurrent clicks apply once', 'TestDuplicates (8 threads); E2E double-click'],
     ['4', 'Stale: wrong expected_version 409; outdated candidate 409; conflicting race has one winner', 'TestStaleVersions; E2E stale page'],
@@ -124,7 +124,7 @@ const body = [
     ['7', 'Boundaries: 413, 415, 400, 422 offset mismatch, 404/405 routes, `.ics` escaping', 'Unit tests; E2E TestBoundaries'],
     ['8', 'A mid-transaction fault leaves no partial state and the action succeeds afterwards', 'Fault-injection test; error-behaviour capture'],
     ['9', 'Rollback works at every level', 'TestRollback; TestFeatureFlagOff; rollback drill'],
-    ['10', 'Representative users complete confirm and stale-recovery tasks', '[[Manual: USER-TASK-TEST.md, pending]]'],
+    ['10', 'Representative users complete confirm and stale-recovery tasks', 'Protocol in USER-TASK-TEST.md (not executed)'],
   ]),
 
   // ---------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ const body = [
   table([2800, 1500, 1500, 3838], ['Run', 'Code state', 'Result', 'Note'], [
     ['first-run', 'uncommitted', 'FAIL 2 / 71', 'Defects below'],
     ['after-fix', 'uncommitted', 'PASS 72', 'One regression test added'],
-    ['clean-commit', '`8de033c`', 'PASS 72', 'Header shows git_dirty=yes because documentation was not yet committed'],
+    ['clean-commit', '`8de033c`', 'PASS 72', 'Header shows git_dirty=yes: documentation was committed afterwards'],
     ['10 repeated runs', '`8de033c`', '10 / 10 OK', 'Concurrency tests stable on this machine'],
   ]),
   h2('Defects found by the checks'),
@@ -176,7 +176,7 @@ const body = [
   p('**Test-oracle defect.** The `.ics` injection test counted the substring `END:VTODO`. The escaped title legitimately contains it on the same line. The oracle now counts whole lines. The code was correct.'),
   p('**Found in self-review before testing.** The first POST handler authenticated before reading the body. On a keep-alive connection the unread body would corrupt the next request. The body is now read (bounded) first, and a dedicated E2E test covers it.'),
   h2('What the tests do not show'),
-  p('The E2E tests drive the same HTTP API the page uses, but not a real browser, so `app.js` rendering and the banner flow are verified only by manual use and the user task test. Concurrency was tested with threads against one SQLite file, not with several processes or machines. No coverage percentage is claimed.'),
+  p('The E2E tests drive the same HTTP API the page uses, but not a real browser, so `app.js` rendering and the banner flow are not covered by automated checks; `app.js` was only syntax-checked with `node --check`. Concurrency was tested with threads against one SQLite file, not with several processes or machines. No coverage percentage is claimed.'),
 
   // ---------------------------------------------------------------------------------------
   h1('Usability and error-behaviour evidence'),
@@ -194,10 +194,10 @@ const body = [
     ['Feature flag off', '503', 'Temporarily switched off. Deadline unchanged.', 'View and export still work'],
   ]),
   h2('Peer review'),
-  p('[[PENDING. Protocol and checklist are fixed in PEER-REVIEW.md: reviewer, date, commit reviewed, each comment with severity, author response and resolution. Replace this paragraph with the real outcome (number of comments, what changed, any disagreement kept open).]]'),
+  p('PEER-REVIEW.md defines the review scope (the slice diff against the A2 baseline, in a fixed reading order), a nine-point checklist covering authorization, duplicates, stale versions, atomicity, error feedback, boundaries, test adequacy and rollback, and the record format: reviewer, commit, each comment with severity, response and resolution. No peer-review session took place within this submission, so no reviewer findings are reported. The only review evidence is the author\'s self-review with AI assistance, which found the keep-alive defect described above. It is not presented as peer review.'),
   h2('Representative-user task test'),
-  p('Protocol frozen in USER-TASK-TEST.md: 2–3 students who track their own deadlines, consent read aloud, no personal data, six tasks (T1 read deadline, T2 confirm official change, T3 handle outdated change, T4 handle unverified change, T5 export, T6 recover from a stale page), think-aloud, 5-minute stop rule.'),
-  p('[[PENDING. Replace with the real results: participants, success per task, times, assists, observed problems, quotes, and any change made in response. Report the actual number of participants, even if lower than planned.]]'),
+  p('The protocol is fixed in USER-TASK-TEST.md: 2–3 students who track their own deadlines, consent read aloud, no personal data, six tasks (T1 read deadline, T2 confirm official change, T3 handle outdated change, T4 handle unverified change, T5 export, T6 recover from a stale page), think-aloud, 5-minute stop rule.'),
+  p('The protocol was not executed with participants within this submission, so no task times, success rates or user quotes are reported. Usability evidence is therefore limited to the captured error behaviour above: every refusal gives a specific message and a recovery action, and the outdated-candidate recovery path was corrected after the E2E check. Acceptance criterion 10 remains unverified.'),
 
   // ---------------------------------------------------------------------------------------
   h1('Rollback design and drill'),
@@ -218,7 +218,7 @@ const body = [
   h2('Limits and residual risk'),
   bullet('Synthetic data only. Change detection is not implemented; candidates are seeded fixtures. The `authority_verified` flag is a fixture assumption, as in A2.'),
   bullet('Demo bearer tokens have no expiry, login flow or TLS. They are acceptable only on 127.0.0.1.'),
-  bullet('E2E tests are HTTP-level, not browser-level. Usability depends on the pending user task test.'),
+  bullet('E2E tests are HTTP-level, not browser-level. No representative-user test or peer review was conducted, so usability with real students is unverified.'),
   bullet('Concurrency was tested with threads and SQLite\'s single-writer lock on one machine. Multi-process load was not tested.'),
   bullet('Anyone with direct access to the SQLite file can drop the triggers. The triggers protect against application bugs, not against the file owner.'),
   bullet('Linux and macOS were not executed. The code uses only portable standard-library modules, but this is untested.'),
@@ -246,7 +246,7 @@ const doc = new Document({
 });
 
 Packer.toBuffer(doc).then((buf) => {
-  const out = path.join(__dirname, 'ISE-A4-Final-Report.docx');
+  const out = path.join(__dirname, process.env.OUT_NAME || 'ISE-A4-Final-Report.docx');
   fs.writeFileSync(out, buf);
   console.log('wrote', out);
 });

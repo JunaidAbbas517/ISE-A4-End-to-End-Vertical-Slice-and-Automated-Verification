@@ -2,7 +2,7 @@
 // the browser only displays state and the server's error/recovery messages.
 'use strict';
 
-const state = { token: null, pending: null, decisionsEnabled: true };
+const state = { token: null, inFlight: null, decisionsEnabled: true };
 const $ = (id) => document.getElementById(id);
 
 function showBanner(message, recovery, { kind = 'error', retry = false, reload = false } = {}) {
@@ -56,7 +56,7 @@ function render(assignments) {
     node.querySelector('.export').addEventListener('click', () => exportIcs(a.assignment_id));
     const list = node.querySelector('.candidates');
     if (!a.pending_candidates.length) {
-      const p = document.createElement('p'); p.textContent = 'No pending changes.'; list.append(p);
+      const p = document.createElement('p'); p.textContent = 'No proposed changes to review.'; list.append(p);
     }
     for (const c of a.pending_candidates) {
       const cn = $('candidate-tpl').content.cloneNode(true);
@@ -84,10 +84,10 @@ function render(assignments) {
 // One idempotency key per user intent; a retry of the SAME intent reuses it,
 // so a network retry or double-click can never apply a change twice.
 async function decide(candidateId, decision, expectedVersion, button) {
-  if (!state.pending || state.pending.candidateId !== candidateId || state.pending.decision !== decision) {
-    state.pending = { candidateId, decision, expectedVersion, key: newKey() };
+  if (!state.inFlight || state.inFlight.candidateId !== candidateId || state.inFlight.decision !== decision) {
+    state.inFlight = { candidateId, decision, expectedVersion, key: newKey() };
   }
-  const p = state.pending;
+  const p = state.inFlight;
   const group = button ? button.parentElement.querySelectorAll('button') : [];
   group.forEach((b) => { b.disabled = true; });
   hideBanner();
@@ -104,12 +104,12 @@ async function decide(candidateId, decision, expectedVersion, button) {
       'Press Retry: it is safe, the same request cannot be applied twice.', { retry: true });
   }
   if (res.status === 200) {
-    state.pending = null;
+    state.inFlight = null;
     showBanner(res.body.message, res.body.status === 'APPLIED' ? `Now version ${res.body.version}.` : '', { kind: 'success' });
     return loadAssignments();
   }
   if (res.status === 401) { signOut(); return showBanner(res.body.error.message, res.body.error.recovery); }
-  state.pending = null;  // a definitive refusal: the next attempt is a new intent
+  state.inFlight = null;  // a definitive refusal: the next attempt is a new intent
   group.forEach((b) => { b.disabled = !state.decisionsEnabled; });
   const err = res.body.error || { message: 'Unexpected response.', recovery: 'Reload and try again.' };
   showBanner(err.message, err.recovery, { reload: [409, 404, 503, 500].includes(res.status) });
@@ -140,7 +140,7 @@ async function signIn(token) {
 }
 
 function signOut() {
-  state.token = null; state.pending = null;
+  state.token = null; state.inFlight = null;
   $('workspace').hidden = true; $('signin').hidden = false; $('token').value = '';
 }
 
@@ -149,6 +149,6 @@ $('signout').addEventListener('click', () => { signOut(); hideBanner(); });
 $('banner-close').addEventListener('click', hideBanner);
 $('banner-reload').addEventListener('click', () => { hideBanner(); loadAssignments(); });
 $('banner-retry').addEventListener('click', () => {
-  const p = state.pending;
+  const p = state.inFlight;
   if (p) decide(p.candidateId, p.decision, p.expectedVersion, null);
 });
