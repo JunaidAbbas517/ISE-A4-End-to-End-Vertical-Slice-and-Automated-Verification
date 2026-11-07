@@ -3,6 +3,8 @@
 **Course:** Intelligent Software Engineering | **Due:** 2026-11-09 16:30 (Asia/Shanghai)
 **Project:** Assignment Deadline Change Tracking and Verification (continues ISE-A1 → A2 → A3)
 
+**Main report:** [report/ISE-A4-Final-Report.pdf](report/ISE-A4-Final-Report.pdf) (editable: `report/ISE-A4-Final-Report.docx`)
+
 ## The slice in one sentence
 A student sees a detected deadline change and where it came from, then **confirms** it (their personal tracked deadline moves to a new version with history) or **rejects** it (nothing changes), and can export the result as an `.ics` calendar task. Everything runs **locally**: Python's built-in web server on `127.0.0.1` and a SQLite file. Nothing is deployed.
 
