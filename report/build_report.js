@@ -82,7 +82,7 @@ const body = [
   h2('Slice identity and environment'),
   table([2300, 7338], ['Item', 'Recorded identity'], [
     ['Repository', 'ISE-A4 study repository; submitted at tag `ise-a4-v1.0`'],
-    ['Commits', '`6625c5d` A2 baseline (byte-identical); `8de033c` A4 slice; documentation and evidence commits follow'],
+    ['Commits', '`3ba5ff0` A2 baseline (byte-identical); `7829daf` A4 slice; documentation and evidence commits follow'],
     ['Runtime', 'CPython 3.12.4; SQLite 3.45.3; Windows 11 (10.0.22631); tzdata 2023.3'],
     ['Dependencies', 'Python standard library only (`sqlite3`, `http.server`, `unittest`, `zoneinfo`); `tzdata` on Windows'],
     ['Data', '`a4-synthetic-fixtures-v1`, SHA-256 b39689db3068…d8ad; derived from the A2 fixture IDs and dates'],
@@ -139,7 +139,7 @@ const body = [
     ['src/db.py, ics.py, fixtures.py', '155', 'Migrations, backup/restore, RFC 5545 export, fixture loading with hashed tokens'],
     ['src/domain.py (A2)', '0 changed', 'Reused unchanged: `parse_deadline`, `Decision`'],
   ]),
-  p('The slice commit adds 2,180 lines: about 1,060 product lines (code, SQL and UI), 623 test lines and 455 lines of reproduction scripts. No existing line is changed, so a reviewer can read the slice against the baseline with `git diff 6625c5d 8de033c`. A reviewer may still find the commit large for a "small diff". Most of it is tests and SQL guards, which were judged proportional to the write-path risk.', { para: { spacing: { before: 120, after: 120 } } }),
+  p('The slice commit adds 2,180 lines: about 1,060 product lines (code, SQL and UI), 623 test lines and 455 lines of reproduction scripts. No existing line is changed, so a reviewer can read the slice against the baseline with `git diff 3ba5ff0 7829daf`. A reviewer may still find the commit large for a "small diff". Most of it is tests and SQL guards, which were judged proportional to the write-path risk.', { para: { spacing: { before: 120, after: 120 } } }),
 
   // ---------------------------------------------------------------------------------------
   h1('Write path: authorization, duplicates and stale versions'),
@@ -168,8 +168,8 @@ const body = [
   table([2800, 1500, 1500, 3838], ['Run', 'Code state', 'Result', 'Note'], [
     ['first-run', 'uncommitted', 'FAIL 2 / 71', 'Defects below'],
     ['after-fix', 'uncommitted', 'PASS 72', 'One regression test added'],
-    ['clean-commit', '`8de033c`', 'PASS 72', 'Header shows git_dirty=yes: documentation was committed afterwards'],
-    ['10 repeated runs', '`8de033c`', '10 / 10 OK', 'Concurrency tests stable on this machine'],
+    ['clean-commit', '`7829daf`', 'PASS 72', 'Header shows git_dirty=yes (documentation committed afterwards) and pre-rewrite ID 8de033c; tree identical'],
+    ['10 repeated runs', '`7829daf`', '10 / 10 OK', 'Concurrency tests stable on this machine'],
   ]),
   h2('Defects found by the checks'),
   p('**Product defect (found by the E2E journey).** When a change was outdated, the error message advised "Reject it", but the server checked the outdated condition before the reject path and refused the rejection, so a user could get stuck. Rejection never mutates the deadline, so the check now applies to confirmation only. A regression test was added.'),
@@ -207,7 +207,7 @@ const body = [
     ['2 Compensating revert', '`rollback.py revert-change`: old deadline written back as a new version with a REVERT history row', 'None; audit kept', 'v2 to v3 restored; second revert refused (409)'],
     ['3 Restore backup', 'SQLite backup API copy taken before the change, restored with the server stopped', 'Writes after backup', 'Version 1, 0 history rows'],
     ['4 Schema down', '`001_down.sql`; refuses without `--yes`; automatic safety backup', 'All slice data (backed up)', 'Refusal exit 2; schema version 0'],
-    ['5 Code rollback', '`git revert` of the slice commit; target checked by extracting HEAD~1 and running its tests', 'Per levels 1–4', 'Baseline 6625c5d: OK, 1 expected failure'],
+    ['5 Code rollback', '`git revert` of the slice commit; target checked by extracting HEAD~1 and running its tests', 'Per levels 1–4', 'Baseline 3ba5ff0: OK, 1 expected failure'],
   ]),
   p('A revert is refused if later changes exist, because rolling back an earlier change would silently discard newer work; the newest change must be reverted first. Exported `.ics` copies cannot be recalled. SEQUENCE increases with every version, so calendars that honour it replace older copies after re-export.', { para: { spacing: { before: 120, after: 120 } } }),
 

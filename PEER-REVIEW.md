@@ -5,8 +5,8 @@ This file defines how the A4 slice is peer-reviewed. No peer-review session took
 ## Review scope
 The slice diff only. The A2 baseline is commit 1 and was reviewed in A2.
 ```bash
-git diff 6625c5d 8de033c --stat
-git diff 6625c5d 8de033c -- migrations/001_up.sql src/service.py src/server.py
+git diff 3ba5ff0 7829daf --stat
+git diff 3ba5ff0 7829daf -- migrations/001_up.sql src/service.py src/server.py
 ```
 Reading order: `migrations/001_up.sql` → `src/service.py` → `src/server.py` → `src/static/app.js` → `tests/`.
 

@@ -58,7 +58,14 @@ python scripts/rollback_drill.py            # runs rollback levels 1-5 -> eviden
 2. `Slice` – the A4 code, migration and tests. `src/domain.py` is untouched; the A4 rules call it.
 3. Documentation and evidence.
 
-Review the slice with `git diff HEAD~2 HEAD~1 --stat`.
+Review the slice with `git diff 3ba5ff0 7829daf --stat`.
+
+**Commit IDs in raw evidence.** The history was rewritten once before publication, to remove commit-message trailers and a stray Word lock file. File contents are unchanged: the git tree hashes are identical. Test-run headers in `evidence/test-runs/` were recorded before the rewrite, so they show the earlier IDs:
+
+| Recorded ID | Published ID | Commit |
+|---|---|---|
+| `6625c5d` | `3ba5ff0` | Baseline (A2 import) |
+| `8de033c` | `7829daf` | A4 slice |
 
 ## Negative results kept
 - `evidence/test-runs/*first-run-FAIL.txt`: the first run failed 2 of 71. One was a real defect: an outdated change could not be rejected even though the error message said to reject it. The other was a wrong test oracle. Both fixed; see `AI-USE-AND-VERIFICATION.md` rows 7–8. Those first two runs were made before the slice was committed (`git_dirty: yes` in their headers).
